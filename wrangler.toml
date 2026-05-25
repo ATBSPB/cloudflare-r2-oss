@@ -13,4 +13,4 @@ bucket_name = "r2-oss"
 
 [vars]
 PUBURL = "https://atr2.atbspb.online"
-# TURNSTILE_SECRET = "0x4AAAAAADVWOePrkWv_vDrrSeo_MG7PiA4"
+TURNSTILE_SECRET = "0x4AAAAAADVWOePrkWv_vDrrSeo_MG7PiA4"
