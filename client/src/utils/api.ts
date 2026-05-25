@@ -1,6 +1,6 @@
 import type { FileListResponse, R2FileInfo } from "../types";
 
-const SIZE_LIMIT = 100 * 1000 * 1000;
+const SIZE_LIMIT = 10 * 1000 * 1000;
 
 function headers(token?: string, extra?: Record<string, string>): HeadersInit {
   const h: Record<string, string> = { ...extra };
