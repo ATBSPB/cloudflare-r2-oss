@@ -290,7 +290,6 @@ export default function App() {
     ctxTarget && typeof ctxTarget === "string"
       ? [
           { label: "复制链接", onClick: () => handleCopyLink(`/?p=${encodeURIComponent(ctxTarget)}`) },
-          { label: "复制", onClick: () => handleCopyToClipboard(ctxTarget + "_$folder$") },
           { label: "移动", onClick: () => handleMove(ctxTarget + "_$folder$") },
           { label: "删除", onClick: () => handleDelete(ctxTarget + "_$folder$"), danger: true },
         ]
@@ -300,7 +299,6 @@ export default function App() {
             return [
               { label: "重命名", onClick: () => handleRename(file.key) },
               { label: "下载", onClick: () => handleDownload(file.key) },
-              { label: "复制", onClick: () => handleCopyToClipboard(file.key) },
               { label: "移动", onClick: () => handleMove(file.key) },
               { label: "复制链接", onClick: () => handleCopyLink(`/raw/${file.key}`) },
               { label: "删除", onClick: () => handleDelete(file.key), danger: true },
