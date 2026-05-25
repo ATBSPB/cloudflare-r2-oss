@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html, body, #root {
+    height: 100%;
+  }
+}
+
+@layer components {
+  .btn-icon {
+    @apply w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-slate-500 hover:bg-slate-100 hover:text-slate-700;
+  }
+  .file-card {
+    @apply h-[68px] px-3.5 py-2.5 flex items-center cursor-pointer select-none rounded-xl bg-white border border-slate-200 shadow-sm transition-all duration-200 hover:border-primary-300 hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.2);
+}

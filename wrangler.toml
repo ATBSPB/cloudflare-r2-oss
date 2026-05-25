@@ -1,0 +1,16 @@
+name = "r2-oss"
+main = "src/index.ts"
+compatibility_date = "2024-09-25"
+
+[assets]
+directory = "./static"
+binding = "ASSETS"
+serve_directly = false
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "r2-oss"
+
+[vars]
+PUBURL = ""
+# TURNSTILE_SECRET = ""
