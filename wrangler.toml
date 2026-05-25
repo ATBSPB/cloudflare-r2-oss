@@ -8,8 +8,8 @@ binding = "ASSETS"
 
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "at-r2"
+bucket_name = "disk"
 
 [vars]
-PUBURL = "https://atr2.atbspb.online"
+PUBURL = "https://disk.aneko.ink"
 TURNSTILE_SECRET = "0x4AAAAAADVWOePrkWv_vDrrSeo_MG7PiA4"
