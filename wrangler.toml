@@ -12,5 +12,5 @@ binding = "BUCKET"
 bucket_name = "r2-oss"
 
 [vars]
-PUBURL = ""
-# TURNSTILE_SECRET = ""
+PUBURL = "https://atr2.atbspb.online"
+# TURNSTILE_SECRET = "0x4AAAAAADVWOePrkWv_vDrrSeo_MG7PiA4"
