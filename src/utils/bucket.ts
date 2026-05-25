@@ -4,7 +4,7 @@ export function parseBucketPath(request: Request, env: Env): [R2Bucket, string] 
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  const routePrefixes = ["/api/children/", "/api/write/items/", "/raw/"];
+  const routePrefixes = ["/api/children/", "/api/items/", "/raw/"];
   let relativePath = pathname;
 
   for (const prefix of routePrefixes) {

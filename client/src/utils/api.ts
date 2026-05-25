@@ -34,7 +34,7 @@ export async function uploadFile(
     xhr.upload.onprogress = (e) => onProgress?.(e.loaded, e.total);
     xhr.onload = () => (xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(xhr.responseText)));
     xhr.onerror = () => reject(new Error("Upload failed"));
-    xhr.open("PUT", `/api/write/items/${key}`);
+    xhr.open("PUT", `/api/items/${key}`);
     for (const [k, v] of Object.entries(hdrs)) xhr.setRequestHeader(k, v);
     xhr.send(file);
   });
@@ -48,7 +48,7 @@ async function multipartUpload(
 ): Promise<void> {
   const totalChunks = Math.ceil(file.size / SIZE_LIMIT);
 
-  const initRes = await fetch(`/api/write/items/${key}?uploads`, {
+  const initRes = await fetch(`/api/items/${key}?uploads`, {
     method: "POST",
     headers: { ...hdrs, "content-type": file.type },
   });
@@ -59,7 +59,7 @@ async function multipartUpload(
   for (let i = 1; i <= totalChunks; i++) {
     const chunk = file.slice((i - 1) * SIZE_LIMIT, i * SIZE_LIMIT);
     const params = new URLSearchParams({ partNumber: String(i), uploadId });
-    const res = await fetch(`/api/write/items/${key}?${params}`, {
+    const res = await fetch(`/api/items/${key}?${params}`, {
       method: "PUT",
       headers: hdrs,
       body: chunk,
@@ -71,7 +71,7 @@ async function multipartUpload(
     onProgress?.(i * SIZE_LIMIT, file.size);
   }
 
-  const completeRes = await fetch(`/api/write/items/${key}?uploadId=${uploadId}`, {
+  const completeRes = await fetch(`/api/items/${key}?uploadId=${uploadId}`, {
     method: "POST",
     headers: hdrs,
     body: JSON.stringify({ parts }),
@@ -80,7 +80,7 @@ async function multipartUpload(
 }
 
 export async function deleteFile(key: string, token: string): Promise<void> {
-  await fetch(`/api/write/items/${key}`, {
+  await fetch(`/api/items/${key}`, {
     method: "DELETE",
     headers: headers(token),
   });
@@ -93,11 +93,11 @@ export async function renameFile(
   token: string
 ): Promise<void> {
   const newKey = `${cwd}${newName}`;
-  await fetch(`/api/write/items/${newKey}`, {
+  await fetch(`/api/items/${newKey}`, {
     method: "PUT",
     headers: { ...headers(token), "x-amz-copy-source": encodeURIComponent(oldKey) },
   });
-  await fetch(`/api/write/items/${oldKey}`, {
+  await fetch(`/api/items/${oldKey}`, {
     method: "DELETE",
     headers: headers(token),
   });
@@ -108,11 +108,11 @@ export async function moveFile(
   targetKey: string,
   token: string
 ): Promise<void> {
-  await fetch(`/api/write/items/${targetKey}`, {
+  await fetch(`/api/items/${targetKey}`, {
     method: "PUT",
     headers: { ...headers(token), "x-amz-copy-source": encodeURIComponent(sourceKey) },
   });
-  await fetch(`/api/write/items/${sourceKey}`, {
+  await fetch(`/api/items/${sourceKey}`, {
     method: "DELETE",
     headers: headers(token),
   });
@@ -123,7 +123,7 @@ export async function createFolder(
   name: string,
   token: string
 ): Promise<void> {
-  await fetch(`/api/write/items/${path}${name}/_$folder$`, {
+  await fetch(`/api/items/${path}${name}/_$folder$`, {
     method: "PUT",
     headers: headers(token),
     body: "",
@@ -135,7 +135,7 @@ export async function uploadThumbnail(
   digest: string,
   token: string
 ): Promise<void> {
-  await fetch(`/api/write/items/_$flaredrive$/thumbnails/${digest}.png`, {
+  await fetch(`/api/items/_$flaredrive$/thumbnails/${digest}.png`, {
     method: "PUT",
     headers: headers(token),
     body: blob,
