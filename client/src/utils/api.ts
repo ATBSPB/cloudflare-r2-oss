@@ -52,6 +52,7 @@ async function multipartUpload(
     method: "POST",
     headers: { ...hdrs, "content-type": file.type },
   });
+  if (!initRes.ok) throw new Error(`Upload init failed: ${initRes.status}`);
   const { uploadId } = await initRes.json() as { uploadId: string };
 
   const parts: Array<{ partNumber: number; etag: string }> = [];
@@ -63,15 +64,19 @@ async function multipartUpload(
       headers: hdrs,
       body: chunk,
     });
-    parts.push({ partNumber: i, etag: res.headers.get("etag")! });
+    if (!res.ok) throw new Error(`Chunk upload failed: ${res.status}`);
+    const etag = res.headers.get("etag");
+    if (!etag) throw new Error("Missing etag in chunk response");
+    parts.push({ partNumber: i, etag });
     onProgress?.(i * SIZE_LIMIT, file.size);
   }
 
-  await fetch(`/api/write/items/${key}?uploadId=${uploadId}`, {
+  const completeRes = await fetch(`/api/write/items/${key}?uploadId=${uploadId}`, {
     method: "POST",
     headers: hdrs,
     body: JSON.stringify({ parts }),
   });
+  if (!completeRes.ok) throw new Error(`Multipart complete failed: ${completeRes.status}`);
 }
 
 export async function deleteFile(key: string, token: string): Promise<void> {

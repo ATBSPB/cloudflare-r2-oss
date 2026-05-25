@@ -26,13 +26,19 @@ export function useTurnstile() {
             sitekey: "0x4AAAAAADVWOfZ_ZQMCjDQO",
             callback: (token: string) => {
               window.__turnstileToken = token;
-              setShowModal(false);
+              if (widgetIdRef.current && window.turnstile) {
+                try { window.turnstile.remove(widgetIdRef.current); } catch {}
+              }
               widgetIdRef.current = null;
+              setShowModal(false);
               resolveRef.current?.(token);
             },
             "error-callback": () => {
-              setShowModal(false);
+              if (widgetIdRef.current && window.turnstile) {
+                try { window.turnstile.remove(widgetIdRef.current); } catch {}
+              }
               widgetIdRef.current = null;
+              setShowModal(false);
               rejectRef.current?.(new Error("Turnstile error"));
             },
           });
