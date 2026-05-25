@@ -103,7 +103,7 @@ export default function App() {
     async (files: FileList) => {
       try {
         const token = await ensureToken();
-        const basedir = cwd.endsWith("/") ? cwd : cwd + "/";
+        const basedir = cwd ? (cwd.endsWith("/") ? cwd : cwd + "/") : "";
         const total = files.length;
         for (let i = 0; i < total; i++) {
           const file = files[i];
